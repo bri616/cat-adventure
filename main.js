@@ -17,6 +17,12 @@ var Cat = function(name, escape_points, current_room ) {
   this.deleteEscapePoint = function(){
     this.escape_points = this.escape_points - 1;
   };
+  this.changeRooms = function(newroom, newroom_id){
+    this.current_room = newroom;
+    // update the html on the page here
+    $("h1").text("Oh no! " +this.name+ " is trapped in the "+this.current_room.name+"!");
+
+  };
 };
 
 //
@@ -80,11 +86,13 @@ $(document).ready(function(){
 
       if (newRoomId == "dining-room") {
         starbuck.current_room = dining_room;
-        $("h1").text("Oh no! Starbuck is trapped in the "+starbuck.current_room.name+"!");
+
+
       } else if (newRoomId == "living-room") {
         starbuck.current_room = living_room;
-        $("h1").text("Oh no! Starbuck is trapped in the "+starbuck.current_room.name+"!");
       }
+
+      starbuck.changeRooms(starbuck.current_room, newRoomId);
 
     });
 });
