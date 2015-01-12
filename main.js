@@ -13,7 +13,7 @@ var Room = function (new_name, new_description, new_exits, new_points) {
 var Cat = function(name, escape_points, current_room ) {
   this.name = name;
   this.escape_points = escape_points;
-  this.current_room = current_room
+  this.current_room = current_room;
   this.deleteEscapePoint = function(){
     this.escape_points = this.escape_points - 1;
   };
@@ -21,7 +21,14 @@ var Cat = function(name, escape_points, current_room ) {
     this.current_room = newroom;
     // update the html on the page here
     $("h1").text("Oh no! " +this.name+ " is trapped in the "+this.current_room.name+"!");
-
+    // a for loop to generate the options for the room here
+    // remove the room options
+    $(".options").children(".room").remove();
+    // loop through the new room options and add them
+    $.each(this.current_room.exits, function( index, roomName ) {
+      var roomId = roomName.replace(/\s+/g, '-').toLowerCase();
+      $(".options").append('<div class="room"><span class="run">Run towards the '+roomName+'. </span><span class="look" id="'+roomId+'">Look at the '+roomName+'</span></div>');
+    });
   };
 };
 
@@ -77,6 +84,15 @@ $(document).ready(function(){
       alert( living_room.getDescription() );
     });
 
+    $("#bedroom").click(function() {
+      alert( bedroom.getDescription() );
+    });
+
+    $("#kitchen").click(function() {
+      alert( kitchen.getDescription() );
+    });
+
+
     $(".run").click(function() {
       alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nThis costs you one escape point");
       starbuck.deleteEscapePoint();
@@ -86,10 +102,12 @@ $(document).ready(function(){
 
       if (newRoomId == "dining-room") {
         starbuck.current_room = dining_room;
-
-
       } else if (newRoomId == "living-room") {
         starbuck.current_room = living_room;
+      } else if (newRoomId == "kitchen") {
+        starbuck.current_room = kitchen;
+      } else if (newRoomId == "bedroom") {
+        starbuck.current_room = bedroom;
       }
 
       starbuck.changeRooms(starbuck.current_room, newRoomId);
