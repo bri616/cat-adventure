@@ -58,8 +58,15 @@ var dining_room = new Room(
 var bedroom = new Room(
   "Bedroom",
   "YAY! We finally found the nice toasty warm sunbeam!",
-  ["Stairs"],
+  ["Stairs", "Dining Room"],
   20
+);
+
+var stairs = new Room(
+  "Stairs",
+  "These stairs go to a locked door.",
+  ["Bedroom"],
+  0
 );
 
 //
@@ -75,24 +82,27 @@ var starbuck = new Cat(
 
 $(document).ready(function(){
   // should be replaced with your beginning/end game logic
-    $("#dining-room").click(function() {
+    $('.options').on('click', '#dining-room', function(event, ui) {
       alert( dining_room.getDescription() );
     });
 
-    $("#living-room").click(function() {
+    $('.options').on('click', '#living-room', function(event, ui) {
       alert( living_room.getDescription() );
     });
 
-    $("#bedroom").click(function() {
+    $('.options').on('click', '#bedroom', function(event, ui) {
       alert( bedroom.getDescription() );
     });
 
-    $("#kitchen").click(function() {
+    $('.options').on('click', '#kitchen', function(event, ui) {
       alert( kitchen.getDescription() );
     });
 
+    $('.options').on('click', '#stairs', function(event, ui) {
+      alert( stairs.getDescription() );
+    });
 
-    $(".run").click(function() {
+    $('.options').on('click', '.run', function(event, ui) {
 
       // which room are they running towards
       var newRoomId = $(this).next()[0].id;
@@ -105,10 +115,12 @@ $(document).ready(function(){
         starbuck.current_room = kitchen;
       } else if (newRoomId == "bedroom") {
         starbuck.current_room = bedroom;
+      } else if (newRoomId == "stairs") {
+        starbuck.current_room = stairs;
       }
 
       numberOfPoints = starbuck.current_room.points;
-      alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nEscape points:"+numberOfPoints);
+      alert(starbuck.name+ ", you have decided to "+$(this).html()+"\nEscape points:"+numberOfPoints);
       starbuck.deleteEscapePoint(numberOfPoints);
       $("#escape_points").text("Starbuck has "+starbuck.escape_points+" escape points.");
       starbuck.changeRooms(starbuck.current_room, newRoomId);
