@@ -5,6 +5,17 @@ var Cat = function(name, escape_points, current_room ) {
   this.current_room = current_room;
   this.deleteEscapePoint = function(number){
     this.escape_points = this.escape_points + number;
+    // if the cat's points are 0 or below, he loses, if they are 20 or
+    // above, he wins!  delete all the options divs and leave a msg
+
+    if (this.escape_points <= 0 ) {
+      console.log("AGH");
+      $(".options").children(".room").remove();
+      $(".options").append("<div>YOU LOST</div>");
+    } else if (starbuck.escape_points >= 20) {
+      $(".options").children(".room").remove();
+      $(".options").append("<div>YOU WON</div>");
+    }
   };
   this.changeRooms = function(newroom, newroom_id){
     this.current_room = newroom;
@@ -82,6 +93,7 @@ var starbuck = new Cat(
 
 $(document).ready(function(){
   // should be replaced with your beginning/end game logic
+
     $('.options').on('click', '#dining-room', function(event, ui) {
       alert( dining_room.getDescription() );
     });
