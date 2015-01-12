@@ -72,6 +72,7 @@ $(document).ready(function(){
     $(".run").click(function() {
       alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nThis costs you one escape point");
       starbuck.deleteEscapePoint();
-      $("#escape_points").text(starbuck.escape_points);
+      $("#escape_points").text("Starbuck has "+starbuck.escape_points+" escape points.");
+
     });
 });
