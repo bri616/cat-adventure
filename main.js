@@ -1,21 +1,10 @@
 // Write a cat model HERE!
-
-var Room = function (new_name, new_description, new_exits, new_points) {
-  this.name = new_name;
-  this.description = new_description;
-  this.exits = new_exits;
-  this.points = new_points;
-  this.getDescription = function(){
-    return this.name + ": " + this.description;
-  };
-};
-
 var Cat = function(name, escape_points, current_room ) {
   this.name = name;
   this.escape_points = escape_points;
   this.current_room = current_room;
-  this.deleteEscapePoint = function(){
-    this.escape_points = this.escape_points - 1;
+  this.deleteEscapePoint = function(number){
+    this.escape_points = this.escape_points + number;
   };
   this.changeRooms = function(newroom, newroom_id){
     this.current_room = newroom;
@@ -29,6 +18,16 @@ var Cat = function(name, escape_points, current_room ) {
       var roomId = roomName.replace(/\s+/g, '-').toLowerCase();
       $(".options").append('<div class="room"><span class="run">Run towards the '+roomName+'. </span><span class="look" id="'+roomId+'">Look at the '+roomName+'</span></div>');
     });
+  };
+};
+
+var Room = function (new_name, new_description, new_exits, new_points) {
+  this.name = new_name;
+  this.description = new_description;
+  this.exits = new_exits;
+  this.points = new_points;
+  this.getDescription = function(){
+    return this.name + ": " + this.description;
   };
 };
 
@@ -94,9 +93,7 @@ $(document).ready(function(){
 
 
     $(".run").click(function() {
-      alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nThis costs you one escape point");
-      starbuck.deleteEscapePoint();
-      $("#escape_points").text("Starbuck has "+starbuck.escape_points+" escape points.");
+
       // which room are they running towards
       var newRoomId = $(this).next()[0].id;
 
@@ -110,6 +107,10 @@ $(document).ready(function(){
         starbuck.current_room = bedroom;
       }
 
+      numberOfPoints = starbuck.current_room.points;
+      alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nEscape points:"+numberOfPoints);
+      starbuck.deleteEscapePoint(numberOfPoints);
+      $("#escape_points").text("Starbuck has "+starbuck.escape_points+" escape points.");
       starbuck.changeRooms(starbuck.current_room, newRoomId);
 
     });
