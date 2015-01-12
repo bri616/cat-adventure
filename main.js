@@ -10,11 +10,19 @@ var Room = function (new_name, new_description, new_exits, new_points) {
   };
 };
 
+var Cat = function(new_name, escape_points ) {
+  this.name = new_name;
+  this.escape_points = escape_points;
+  this.deleteEscapePoint = function(){
+    this.escape_points = this.escape_points - 1;
+  };
+};
+
 //
 // Begin fixture data!
 //
 var kitchen = new Room(
-  "Kitchen", 
+  "Kitchen",
   "A nice roomy kitchen. Not very safe. There may be dogs nearby.",
   ["Living Room", "Dining Room"],
   0
@@ -46,7 +54,10 @@ var bedroom = new Room(
 //
 
 // don't forget to populate this with data!
-// var starbuck = new Cat();
+var starbuck = new Cat(
+  "Starbuck",
+  5
+);
 
 $(document).ready(function(){
   // should be replaced with your beginning/end game logic
@@ -57,5 +68,10 @@ $(document).ready(function(){
     $("#living-room").click(function() {
       alert( living_room.getDescription() );
     });
-    // Add more!
+
+    $(".run").click(function() {
+      alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nThis costs you one escape point");
+      starbuck.deleteEscapePoint();
+      $("#escape_points").text(starbuck.escape_points);
+    });
 });
