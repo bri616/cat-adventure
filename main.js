@@ -10,9 +10,10 @@ var Room = function (new_name, new_description, new_exits, new_points) {
   };
 };
 
-var Cat = function(new_name, escape_points ) {
-  this.name = new_name;
+var Cat = function(name, escape_points, current_room ) {
+  this.name = name;
   this.escape_points = escape_points;
+  this.current_room = current_room
   this.deleteEscapePoint = function(){
     this.escape_points = this.escape_points - 1;
   };
@@ -56,7 +57,8 @@ var bedroom = new Room(
 // don't forget to populate this with data!
 var starbuck = new Cat(
   "Starbuck",
-  5
+  5,
+  kitchen
 );
 
 $(document).ready(function(){
@@ -73,6 +75,16 @@ $(document).ready(function(){
       alert(starbuck.name+ " ,you have decided to "+$(this).html()+"\nThis costs you one escape point");
       starbuck.deleteEscapePoint();
       $("#escape_points").text("Starbuck has "+starbuck.escape_points+" escape points.");
+      // which room are they running towards
+      var newRoomId = $(this).next()[0].id;
+
+      if (newRoomId == "dining-room") {
+        starbuck.current_room = dining_room;
+        $("h1").text("Oh no! Starbuck is trapped in the "+starbuck.current_room.name+"!");
+      } else if (newRoomId == "living-room") {
+        starbuck.current_room = living_room;
+        $("h1").text("Oh no! Starbuck is trapped in the "+starbuck.current_room.name+"!");
+      }
 
     });
 });
